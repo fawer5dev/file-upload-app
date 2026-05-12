@@ -1,0 +1,62 @@
+<div class="view-container">
+  <h2>Uploaded Files</h2>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <p>Loading files...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-message" *ngIf="error">
+    <span class="error-icon">✗</span>
+    {{ error }}
+  </div>
+
+  <!-- No Files State -->
+  <div class="no-files" *ngIf="!loading && !error && !hasFiles()">
+    <p>No files uploaded yet. Upload a file to see it here.</p>
+  </div>
+
+  <!-- Files Tables -->
+  <div class="tables-container" *ngIf="!loading && hasFiles()">
+    <div class="category-section" *ngFor="let category of categories">
+      <h3 class="category-title">{{ getCategoryDisplayName(category) }}</h3>
+      
+      <div class="table-wrapper">
+        <table class="files-table">
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Size</th>
+              <th>Upload Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let file of getFilesForCategory(category)">
+              <td class="file-name">
+                <span class="file-icon">📄</span>
+                {{ file.originalName }}
+              </td>
+              <td>{{ formatFileSize(file.size) }}</td>
+              <td>{{ formatDate(file.uploadDate) }}</td>
+              <td>
+                <button 
+                  class="download-button"
+                  (click)="downloadFile(file)"
+                  title="Download file"
+                >
+                  ⬇ Download
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="file-count">
+        Total: {{ getFilesForCategory(category).length }} file(s)
+      </div>
+    </div>
+  </div>
+</div>

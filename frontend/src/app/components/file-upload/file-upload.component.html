@@ -1,0 +1,54 @@
+<div class="upload-container">
+  <h2>Upload File</h2>
+
+  <!-- Configuration Display -->
+  <div class="config-info" *ngIf="configuration">
+    <p><strong>Max File Size:</strong> {{ configuration.maxFileSizeFormatted }}</p>
+    <p><strong>Allowed Types:</strong> {{ configuration.allowedFileTypes.join(', ') }}</p>
+  </div>
+
+  <!-- File Input -->
+  <div class="file-input-wrapper">
+    <input 
+      type="file" 
+      id="fileInput"
+      (change)="onFileSelected($event)"
+      [disabled]="uploading"
+      class="file-input"
+    />
+    <label for="fileInput" class="file-input-label">
+      <span class="file-icon">📁</span>
+      <span>{{ selectedFile ? selectedFile.name : 'Choose a file' }}</span>
+    </label>
+  </div>
+
+  <!-- Selected File Info -->
+  <div class="selected-file-info" *ngIf="selectedFile">
+    <p><strong>Selected File:</strong> {{ selectedFile.name }}</p>
+    <p><strong>Size:</strong> {{ getFileSize() }}</p>
+  </div>
+
+  <!-- Upload Button -->
+  <button 
+    class="upload-button"
+    (click)="uploadFile()"
+    [disabled]="!selectedFile || uploading"
+  >
+    <span *ngIf="!uploading">Upload File</span>
+    <span *ngIf="uploading">Uploading...</span>
+  </button>
+
+  <!-- Success Message -->
+  <div class="success-message" *ngIf="uploadSuccess">
+    <span class="success-icon">✓</span>
+    {{ successMessage }}
+  </div>
+
+  <!-- Error Messages -->
+  <div class="error-messages" *ngIf="errors.length > 0">
+    <div class="error-item" *ngFor="let error of errors">
+      <span class="error-icon">✗</span>
+      {{ error }}
+    </div>
+  </div>
+</div>
