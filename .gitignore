@@ -1,1 +1,21 @@
-/.DS_Store
+# macOS
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+coverage/
+
+# Logs
+*.log
+
+# Environment files
+.env.local
+
+# Angular
+.angular/
+
+# Backend uploads
+backend/uploads/
